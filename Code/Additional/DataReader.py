@@ -3,9 +3,9 @@ from scipy import io
 import math
 import numpy as np
 class DataReader:
-    def __init__(self, mat_number):
-        self.imu_mat_path = "p1a/Data/Train/IMU/imuRaw" + str(mat_number) + ".mat"
-        self.vicon_mat_path = "p1a/Data/Train/Vicon/viconRot" + str(mat_number) + ".mat"
+    def __init__(self, mat_number, path_str):
+        self.imu_mat_path = path_str + "/IMU/imuRaw" + str(mat_number) + ".mat"
+        self.vicon_mat_path = path_str + "/Vicon/viconRot" + str(mat_number) + ".mat"
         self.imu_mat = io.loadmat(self.imu_mat_path)
         self.vicon_mat = io.loadmat(self.vicon_mat_path)
         self.params_mat = io.loadmat('p1a/IMUParams.mat')
