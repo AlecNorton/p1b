@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 from scipy.spatial.transform import Rotation as R
 from DataReader import DataReader
-from p1a.rotplot import rotplot
+from rotplot import rotplot
 import argparse
 import pathlib
 from scipy.io import loadmat
@@ -11,7 +11,6 @@ from functools import partial
 import matplotlib.animation as animation
 from rich.progress import Progress
 # Initialize figure and axis
-print("HELLO?")
 import matplotlib
 #matplotlib.use('Agg')
 
@@ -22,7 +21,6 @@ def main():
     parser.add_argument('--file_path', type = str, required = False, default = 'outputs', help = 'File directory where output .mat files are located')
 
 
-    print("HELLLOOOO???")
     args = parser.parse_args()
     this_dir = pathlib.Path(__file__).resolve().parent
     output_dir = (this_dir / args.file_path).resolve()
@@ -39,7 +37,7 @@ def main():
     vicon = fig.add_subplot(1, 5, 5, projection = '3d')
     vicon.set_title('Vicon')
     axes = [gyro, accel, comp, madgwick, vicon]
-    numFrames = len(mat['VICON']['ROLL'][0][0][0])
+    numFrames = len(mat['VICON']['Roll'][0][0][0])
     #numFrames = 50
     ani = FuncAnimation(fig, partial(update, axes = axes, mat = mat), frames = numFrames//sample, interval = 1)
     #plt.show()
@@ -53,31 +51,31 @@ def update(frame, axes, mat):
         ax.clear()
         Z, Y, X = 0.0, 0.0, 0.0
         if('Gyroscope' in tx):
-            Z = mat['GYRO']["YAW"][0][0][0][frame*sample]
-            Y = mat['GYRO']["PITCH"][0][0][0][frame*sample]
-            X = mat['GYRO']["ROLL"][0][0][0][frame*sample]
+            Z = mat['GYRO']["Yaw"][0][0][0][frame*sample]
+            Y = mat['GYRO']["Pitch"][0][0][0][frame*sample]
+            X = mat['GYRO']["Roll"][0][0][0][frame*sample]
             tx = 'Gyroscope - ' + str(frame*sample)
         elif('Accelerometer'in tx):
-            Z = mat['ACCEL']["YAW"][0][0][0][frame*sample]
-            Y = mat['ACCEL']["PITCH"][0][0][0][frame*sample]
-            X = mat['ACCEL']["ROLL"][0][0][0][frame*sample]
+            Z = mat['ACCEL']["Yaw"][0][0][0][frame*sample]
+            Y = mat['ACCEL']["Pitch"][0][0][0][frame*sample]
+            X = mat['ACCEL']["Roll"][0][0][0][frame*sample]
             tx = 'Accelerometer - ' + str(frame*sample)
 
         elif('Complementary Filter' in tx):
-            Z = mat['COMP']["YAW"][0][0][0][frame*sample]
-            Y = mat['COMP']["PITCH"][0][0][0][frame*sample]
-            X = mat['COMP']["ROLL"][0][0][0][frame*sample]
+            Z = mat['COMP']["Yaw"][0][0][0][frame*sample]
+            Y = mat['COMP']["Pitch"][0][0][0][frame*sample]
+            X = mat['COMP']["Roll"][0][0][0][frame*sample]
             tx = 'Complementary Filter - ' + str(frame*sample)
         elif('Madgwick Filter' in tx):
-            Z = mat['MADGWICK']["YAW"][0][0][0][frame*sample]
-            Y = mat['MADGWICK']["PITCH"][0][0][0][frame*sample]
-            X = mat['MADGWICK']["ROLL"][0][0][0][frame*sample]
+            Z = mat['MADGWICK']["Yaw"][0][0][0][frame*sample]
+            Y = mat['MADGWICK']["Pitch"][0][0][0][frame*sample]
+            X = mat['MADGWICK']["Roll"][0][0][0][frame*sample]
             tx = 'Madgwick Filter - ' + str(frame*sample)
 
         elif('Vicon' in tx):
-            Z = mat['VICON']["YAW"][0][0][0][frame*sample]
-            Y = mat['VICON']["PITCH"][0][0][0][frame*sample]
-            X = mat['VICON']["ROLL"][0][0][0][frame*sample]
+            Z = mat['VICON']["Yaw"][0][0][0][frame*sample]
+            Y = mat['VICON']["Pitch"][0][0][0][frame*sample]
+            X = mat['VICON']["Roll"][0][0][0][frame*sample]
             tx = 'Vicon - ' + str(frame*sample)
         else:
             print("error")
